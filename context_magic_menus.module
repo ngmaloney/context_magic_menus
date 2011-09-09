@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * Implements hook_init()
+ */
+function context_magic_menus_init() {
+  if ($plugin = context_get_plugin('reaction', 'context_magic_menus')) {
+    $plugin->execute($region);
+  }
+}
+
+
+/**
+ * Implements context_hook_context_plugins
+ */
+function context_magic_menus_context_plugins() {
+  $plugins = array();
+  $plugins['context_magic_menus'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'context_magic_menus') . '/plugins',
+      'file' => 'context_magic_menus.inc',
+      'class' => 'context_magic_menus',
+      'parent' => 'context_reaction',
+    ),
+  );
+  return $plugins;
+}
+
+/**
+ * Implementation of hook_context_registry().
+ */
+function context_magic_menus_context_registry() {
+  return array(
+    'reactions' => array(
+      'context_magic_menus' => array(
+        'title' => t('Magic Menus'),
+        'description' => t('Displays closest matching menu based on contexts current path.'),
+        'plugin' => 'context_magic_menus',
+      ),
+    ),
+  );
+}
+
+/**
+ * Notify CTools that we'll be using the plugin API with Context module
+ */
+function context_magic_menus_ctools_plugin_api($module, $api) {
+  if ($module == 'context' && $api == 'plugins') {
+    return array('version' => 3);
+  }
+}

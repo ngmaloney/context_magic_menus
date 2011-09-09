@@ -1,0 +1,5 @@
+name = Context Magic Menus
+description = "Sets the active menu to the parent menu item closest to the path. Enabled via context."
+package = "Context"
+core = 7.x
+dependencies[] = 'context'
